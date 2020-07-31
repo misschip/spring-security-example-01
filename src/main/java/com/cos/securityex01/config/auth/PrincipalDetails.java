@@ -65,10 +65,10 @@ public class PrincipalDetails implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> collect = new ArrayList<GrantedAuthority>();
-		collect.add(new SimpleGrantedAuthority(user.getRole()));
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(user.getRole()));	// "ROLE_USER", "ROLE_ADMIN"
 		
-		return collect;
+		return authorities;
 		
 		// 이 메서드 구현에 참조한 사이트 : https://www.baeldung.com/spring-security-granted-authority-vs-role
 	}
