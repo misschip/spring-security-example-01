@@ -5,3 +5,11 @@ GRANT ALL PRIVILEGES ON *.* TO 'cos'@'%';
 create database security;
 use security;
 ```
+
+### Project Dependencies
+ - Spring Boot DevTools
+ - Lombok
+ - Spring Data JPA
+ - MySQL Driver
+ - Spring Security
+ - Spring Web
