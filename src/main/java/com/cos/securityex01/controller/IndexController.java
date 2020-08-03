@@ -1,6 +1,9 @@
 package com.cos.securityex01.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -41,6 +44,15 @@ public class IndexController {
 	@GetMapping("/admin")
 	public @ResponseBody String admin() {
 		return "admin 페이지입니다";
+	}
+	
+	
+	// @PostAuthorize("hasRole('ROLE_MANAGER')")		// 이 어노테이션 쓸 때는 SecurityConfig에 @EnableGlobalMethodSecurity(prePostEnabled = true) 붙여줘야
+	// @PreAuthorize("hasRole('ROLE_MANAGER')")	// 컨트롤러 들어오기 전에 작동
+	@Secured("ROLE_MANAGER")		// 위 것과 둘 중 하나 쓰는 걸로
+	@GetMapping("/manager")
+	public @ResponseBody String manager() {
+		return "매니져 페이지입니다";
 	}
 	
 	

@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration	// IoC 빈(bean)을 등록
 @EnableWebSecurity	// 필터 체인에 등록 & 관리 시작
-@EnableGlobalMethodSecurity(prePostEnabled = true)	// 특정 주소 접근시 권한 및 인증을 미리 체크하겠다
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)	// 특정 주소 접근시 권한 및 인증을 미리 체크하겠다. // 특정 주소 접근시 권한 및 인증을 위한 어노테이션 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
@@ -34,8 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable(); // csrf 설정이 기본값. GET을 제외한 POST, DELETE 등 메서드로 접근시 csrf 토큰이 필요함
 		
 		http.authorizeRequests()
-			.antMatchers("/user/**","/admin/**")	// 이 페이지들은
+			.antMatchers("/user/**")	// 이 페이지들은
 			.authenticated()						// 인증된 사용자라야 접근 가능하고
+			//.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")	// hasAnyRole("ROLE_ADMIN")도 가능한 듯
+			//.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_USER')")
+			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")	// 일부 예외를 허용할 때는 ignoring()을 쓰면 됨
 			.anyRequest()				// 나머지는
 			.permitAll()				// 아무나 접근 가능
 		.and()
